@@ -1,0 +1,135 @@
+<!--<!DOCTYPE html>
+<html>
+<head>
+    <title>Export Theatre</title>
+</head>
+<body>
+    <h1>Theatre Details</h1>
+    <h2>{{ theatre.name }}</h2>
+    <p>Address: {{ theatre.address }}</p>
+    <p>City: {{ theatre.city }}</p>
+    <p>Capacity: {{ theatre.capacity }}</p>
+    
+    <h2>Shows</h2>
+    <table>
+        <tr>
+            <th>Name</th>
+            <th>Start Time</th>
+            <th>End Time</th>
+            <th>Price</th>
+            <th>Tags</th>
+        </tr>
+        {% for show in shows %}
+        <tr>
+            <td>{{ show.name }}</td>
+            <td>{{ show.start_time }}</td>
+            <td>{{ show.end_time }}</td>
+            <td>{{ show.price }}</td>
+            <td>{{ show.tags }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+</body>
+</html> -->
+
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <title>Show Information</title>
+  <style>
+    /* Existing CSS styles */
+
+    .container {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      border-bottom: 1px solid black;
+      padding: 20px 0;
+      margin-bottom: 20px;
+    }
+
+    #left {
+      flex: 1;
+    }
+
+    #right {
+      flex: 1;
+      text-align: right;
+    }
+
+    table {
+      border-collapse: collapse;
+      width: 100%;
+      font-size: 16px;
+    }
+
+    th,
+    td {
+      border: 1px solid black;
+      padding: 8px;
+      text-align: center;
+    }
+
+    th {
+      background-color: #f2f2f2;
+      font-weight: bold;
+    }
+
+    .tag {
+      background-color: #e0e0e0;
+      padding: 4px 8px;
+      border-radius: 4px;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="container">
+    <div>
+      <h2 >Ticket Show v2</h2>
+    </div>
+  </div>
+
+  <div class="container">
+
+    <div id="left">
+        <h1>Theatre Details</h1>
+        <h2>{{ theatre.name }}</h2>
+        <p>Address: {{ theatre.address }}</p>
+        <p>City: {{ theatre.city }}</p>
+        <p>Capacity: {{ theatre.capacity }}</p>
+    </div>
+  </div>
+
+  <div class="container">
+    <table>
+      <thead>
+        <tr>
+          <th>Index</th>
+          <th>Name</th>
+          <th>Start Time</th>
+          <th>End Time</th>
+          <th>Price</th>
+          <th>Tags</th>
+        </tr>
+      </thead>
+      <tbody>
+       {% for show in shows %}
+        <tr>
+          <td>{{ loop.index }}</td>
+          <td>{{ show.name }}</td>
+          <td>{{ show.start_time }}</td>
+          <td>{{ show.end_time }}</td>
+          <td>{{ show.price }}</td>
+          <td>{{ show.tags }}</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</body>
+
+</html>

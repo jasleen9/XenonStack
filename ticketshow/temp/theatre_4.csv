@@ -1,0 +1,6 @@
+theatre_name,theatre_address,theatre_city,theatre_capacity
+Vue Theatre,Green Avenue,Amritsar,60
+
+Index,Show_name,start_time,end_time,price,tags
+1,JKL show,2023-09-03 16:25:00,2023-09-03 17:25:00,500.0,fantasy
+2,XYZ,2023-09-03 18:30:00,2023-09-03 19:30:00,100.0,"crime, action"

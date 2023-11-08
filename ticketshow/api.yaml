@@ -1,0 +1,483 @@
+openapi: 3.1.0
+info:
+  title: Ticket Show v2
+  description: Modern Application development 2 project of roll number - 21f1006537
+  version: "1"
+servers:
+  - url: http:/localhost:8080/
+tags:
+  - name: theatres
+    description: All theatre details
+  - name: shows
+    description: All show details
+  - name: bookings
+    description: All booking details
+  - name: auth
+    description: Needed for user login and register
+paths:
+  /api/login:
+    post:
+      tags:
+        - auth
+      summary: Existing User logs In
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                email:
+                  type: string
+                password:
+                  type: string
+              required:
+                - email
+                - password
+      responses:
+        "200":
+          description: 
+            User logged in successfully
+                
+  /api/register:
+    post:
+      tags:
+        - auth
+      summary: Registers New User
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                username:
+                  type: string
+                email:
+                  type: string
+                password:
+                  type: string
+              required:
+                - username
+                - email
+                - password
+      responses:
+        "200":
+          description: 
+            New user created successfully
+  
+  /api/theatre:
+    get:
+      tags:
+        - theatres
+      summary: Get a list of theatres
+      responses:
+        "200":
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Theatre"
+      security:
+        - jwt: []   # Assuming JWT authentication is required
+
+    post:
+      tags:
+        - theatres
+      summary: Create a new theatre (admin only)
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/TheatreInput"
+      responses:
+        "201":
+          description: Theatre created successfully
+      security:
+        - jwt: []   # Assuming JWT authentication is required
+
+  /api/theatres/{id}:
+    get:
+      tags:
+        - theatres
+      summary: Get a theatre by ID
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Theatre"
+      security:
+        - jwt: []   # Assuming JWT authentication is required
+    put:
+      tags:
+        - theatres
+      summary: Update a theatre by ID (admin only)
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/TheatreInput"
+      responses:
+        "200":
+          description: Theatre updated successfully
+      security:
+        - jwt: []   # Assuming JWT authentication is required
+    delete:
+      tags:
+        - theatres
+      summary: Delete a theatre by ID (admin only)
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: Theatre deleted successfully
+      security:
+        - jwt: [] 
+
+  /api/show:
+    get:
+      tags:
+        - shows
+      summary: Get all shows
+      responses:
+        "200":
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Show"
+      security:
+        - jwt: []   # Assuming JWT authentication is required
+
+  /api/theatre/{theatre_id}/show:
+    get:
+      tags:
+        - shows
+      summary: Get shows of a specific theatre
+      parameters:
+        - in: path
+          name: theatre_id
+          required: true
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Show"
+      security:
+        - jwt: []   # Assuming JWT authentication is required
+
+    post:
+      tags:
+        - shows
+      summary: Create a new show in a specific theatre (admin only)
+      parameters:
+        - in: path
+          name: theatre_id
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ShowInput"
+      responses:
+        "200":
+          description: Show created successfully
+      security:
+        - jwt: []   # Assuming JWT authentication is required
+
+
+  /api/show/{id}:
+    get:
+      tags:
+        - shows
+      summary: Get a show by ID
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Show"
+      security:
+        - jwt: []   # Assuming JWT authentication is required
+    put:
+      tags:
+        - shows
+      summary: Update a show by ID (admin only)
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ShowUpdate"
+      responses:
+        "200":
+          description: Show updated successfully
+      security:
+        - jwt: []   # Assuming JWT authentication is required
+    delete:
+      tags:
+        - shows
+      summary: Delete a show by ID (admin only)
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: Show deleted successfully
+      security:
+        - jwt: []   # Assuming JWT authentication is required
+  
+  
+  /api/userbookings:
+    get:
+      tags:
+        - bookings
+      summary: Get bookings of the authenticated user
+      responses:
+        "200":
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Booking"
+      security:
+        - jwt: []   # Assuming JWT authentication is required
+  
+  /api/bookings:
+    get:
+      tags:
+        - bookings
+      summary: Get all bookings (admin only)
+      responses:
+        "200":
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Booking"
+      security:
+        - jwt: []   # Assuming JWT authentication is required
+
+
+  /api/book/show/{show_id}:
+    post:
+      tags:
+        - bookings
+      summary: Create a new booking for a show
+      parameters:
+        - in: path
+          name: show_id
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/BookingInput"
+      responses:
+        "200":
+          description: Booking created successfully
+      security:
+        - jwt: []   # Assuming JWT authentication is required
+
+  /api/add_rating/{id}:
+    put:
+      tags:
+        - bookings
+      summary: Update a booking by ID
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/BookingUpdate"
+      responses:
+        "200":
+          description: Show Rated successfully!
+      security:
+        - jwt: [] 
+
+components:
+  schemas:
+    Theatre:
+      type: object
+      properties:
+        id:
+          type: integer
+        name:
+          type: string
+        address:
+          type: string
+        city:
+          type: string
+        capacity:
+          type: integer
+    TheatreInput:
+      type: object
+      properties:
+        name:
+          type: string
+        address:
+          type: string
+        city:
+          type: string
+        capacity:
+          type: integer
+        
+      required:
+        - name
+        - address
+        - city
+        - capacity
+
+    Show:
+      type: object
+      properties:
+        id:
+          type: integer
+        theatre_id:
+          type: integer
+        name:
+          type: string
+        rating:
+          type: number
+        start_time:
+          type: string
+          format: date-time
+        end_time:
+          type: string
+          format: date-time
+        price:
+          type: number
+        tags:
+          type: string
+        show_capacity:
+          type: integer
+    ShowInput:
+      type: object
+      properties:
+        name:
+          type: string
+        start_time:
+          type: string
+          format: date-time
+        end_time:
+          type: string
+          format: date-time
+        price:
+          type: number
+        tags:
+          type: string
+       
+      required:
+        - name
+        - start_time
+        - end_time
+        - price
+        - tags
+    ShowUpdate:
+      type: object
+      properties:
+        name:
+          type: string
+        start_time:
+          type: string
+          format: date-time
+        end_time:
+          type: string
+          format: date-time
+        price:
+          type: number
+        tags:
+          type: string
+    
+    Booking:
+      type: object
+      properties:
+        id:
+          type: integer
+        show_id:
+          type: integer
+        user_id:
+          type: integer
+        booking_time:
+          type: string
+          format: date-time
+        seats:
+          type: integer
+        user_rating:
+          type: number
+        
+    BookingInput:
+      type: object
+      properties:
+        seats:
+          type: integer
+      required:
+        - seats 
+    BookingUpdate:
+      type: object
+      properties:
+        user_rating:
+          type: number
